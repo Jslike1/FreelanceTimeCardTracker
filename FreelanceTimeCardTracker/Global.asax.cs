@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using FreelanceTimeCardTracker.DAL;
 
 namespace FreelanceTimeCardTracker
 {
@@ -30,7 +31,7 @@ namespace FreelanceTimeCardTracker
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
             // Configure Bindings
-            // kernel.Bind<interface>().To<class>();
+            kernel.Bind<ITimeCardDAL>().To<TimeCardSqlDAL>().WithConstructorArgument(connectionString);
 
             return kernel;
         }
