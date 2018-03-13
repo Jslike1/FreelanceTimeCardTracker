@@ -4,7 +4,17 @@
     ViewBag.Title = "Home";
 }
 
-
+@*@section scripts {
+    <script>
+        var timeagoInstance = timeago();
+        var nodes = document.querySelectorAll('.time-ago');
+        timeagoInstance.render(nodes, 'en');
+        // cancel real-time render for every node
+        timeagoInstance.cancel()
+        // or for the specific one
+        timeagoInstance.cancel(nodes[0])
+    </script>
+    }*@
 
 
 @if (Request.IsAuthenticated)
@@ -23,7 +33,8 @@
     }
     else
     {
-        <h3>Today's Date: @DateTime.Now.ToShortDateString()</h3>
+        <h3>You clocked in on @Convert.ToDateTime(Model.Start_DateTime).ToShortDateString() at @Convert.ToDateTime(Model.Start_DateTime).ToShortTimeString()</h3>
+
         <p>@Model.Username</p>
         <form method="post" action="@Url.Action("Index")">
             <input type="hidden" name="End_DateTime" value="@DateTime.Now" />

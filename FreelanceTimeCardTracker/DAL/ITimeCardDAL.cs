@@ -9,7 +9,7 @@ namespace FreelanceTimeCardTracker.DAL
 {
     public interface ITimeCardDAL
     {
-        List<TimeCard> GetAllTimeCards(string username);
+        List<TimeCard> GetUserTimeCards(string username);
 
         TimeCard GetTimeCard(string username);
 

@@ -41,7 +41,13 @@ namespace FreelanceTimeCardTracker.Controllers
             }
 
             return RedirectToAction("Index");
+        }
 
+        public ActionResult History()
+        {
+            List<TimeCard> list = dal.GetUserTimeCards(User.Identity.GetUserName());
+
+            return View(list);
         }
 
         public ActionResult About()

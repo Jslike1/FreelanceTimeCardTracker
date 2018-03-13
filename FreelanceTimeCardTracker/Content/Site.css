@@ -22,3 +22,21 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.record-format {
+    display: block;
+}
+
+    .record-format div {
+        width: 20%;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .record-format h5 {
+        font-weight: bold;
+    }
+
+    .record-format p {
+
+    }

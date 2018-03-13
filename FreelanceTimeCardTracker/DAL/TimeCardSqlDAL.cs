@@ -18,10 +18,6 @@ namespace FreelanceTimeCardTracker.DAL
             this.ConnectionString = connectionString;
         }
 
-        public List<TimeCard> GetAllTimeCards(string username)
-        {
-            throw new NotImplementedException();
-        }
 
         public TimeCard GetTimeCard(string username)
         {
@@ -63,6 +59,45 @@ namespace FreelanceTimeCardTracker.DAL
 
             return timeCard;
         }
+
+        public List<TimeCard> GetUserTimeCards(string username)
+        {
+            List<TimeCard> result = new List<TimeCard>();
+
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT * FROM timecard WHERE user_name = @username ORDER BY id DESC", conn);
+
+                cmd.Parameters.AddWithValue("@username", username);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while(reader.Read())
+                {
+                    TimeCard temp = new TimeCard();
+
+                    temp.ID = Convert.ToInt32(reader["id"]);
+                    temp.Username = Convert.ToString(reader["user_name"]);
+                    temp.Project = Convert.ToString(reader["project"]);
+                    temp.Start_DateTime = Convert.ToDateTime(reader["start_datetime"]);
+                    if (reader["end_datetime"] == DBNull.Value)
+                    {
+                        temp.End_DateTime = null;
+                    }
+                    else
+                    {
+                        temp.End_DateTime = Convert.ToDateTime(reader["end_datetime"]);
+                    }
+                    temp.Notes = Convert.ToString(reader["notes"]);
+
+                    result.Add(temp);
+                }
+            }
+
+            return result;
+        }
+
 
         public void PunchIn(TimeCard timeCard)
         {
