@@ -2,19 +2,63 @@
 @using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Home";
+    double timezoneModifier = 0.0;
+
+    int month = Convert.ToDateTime(Model.Start_DateTime).Month;
+    string monthString = month.ToString();
+    if (month < 10)
+    {
+        monthString = "0" + month;
+    }
+
+    int day = Convert.ToDateTime(Model.Start_DateTime).Day;
+    string dayString = day.ToString();
+    if (day < 10)
+    {
+        dayString = "0" + day;
+    }
+
+    int hour = Convert.ToDateTime(Model.Start_DateTime).Hour;
+    string hourString = hour.ToString();
+    if (hour < 10)
+    {
+        hourString = "0" + hour;
+    }
+
+    int minute = Convert.ToDateTime(Model.Start_DateTime).Minute;
+    string minuteString = minute.ToString();
+    if (minute < 10)
+    {
+        minuteString = "0" + minute;
+    }
+
+    int second = Convert.ToDateTime(Model.Start_DateTime).Second;
+    string secondString = second.ToString();
+    if (second < 10)
+    {
+        secondString = "0" + second;
+    }
+
 }
 
-@*@section scripts {
+@section scripts {
     <script>
-        var timeagoInstance = timeago();
-        var nodes = document.querySelectorAll('.time-ago');
-        timeagoInstance.render(nodes, 'en');
-        // cancel real-time render for every node
-        timeagoInstance.cancel()
-        // or for the specific one
-        timeagoInstance.cancel(nodes[0])
+    function getTimezoneModifier() {
+        var offset = new Date().getTimezoneOffset(), o = Math.abs(offset);
+        var timezone = (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
+
+        var sdString = "@Convert.ToDateTime(Model.Start_DateTime).Year-@monthString-@dayString" + "T" + "@hourString:@minuteString:@secondString" + "Z";
+
+        var sd = new Date(sdString);
+        var dateString = sd.toUTCString();
+        document.getElementById("demo").innerHTML = sd.toLocaleString();
+
+    }
+        window.onload = getTimezoneModifier();
     </script>
-    }*@
+}
+
+
 
 
 @if (Request.IsAuthenticated)
@@ -28,14 +72,15 @@
             <input type="hidden" name="Username" value="@User.Identity.GetUserName()" />
             <input type="hidden" name="Start_DateTime" value="@DateTime.Now" />
             <input type="hidden" name="Punch" value="punchin" />
-            <button>Punch In</button>
+            <button>Clock In</button>
         </form>
     }
     else
     {
-        <h3>You clocked in on @Convert.ToDateTime(Model.Start_DateTime).ToShortDateString() at @Convert.ToDateTime(Model.Start_DateTime).ToShortTimeString()</h3>
+        <span>You clocked in at:</span>
+        <span id="demo"></span>
 
-        <p>@Model.Username</p>
+
         <form method="post" action="@Url.Action("Index")">
             <input type="hidden" name="End_DateTime" value="@DateTime.Now" />
             <input type="hidden" name="Username" value="@Model.Username" />
@@ -43,13 +88,16 @@
             <input type="text" name="Project" value="Project Name" />
             <input type="text" name="Notes" value="Enter Notes Here" />
             <input type="hidden" name="Punch" value="punchout" />
-            <button>Punch Out</button>
+            <button>Clock Out</button>
         </form>
     }
 }
 else
 {
     <h2>Welcome!</h2>
-    <h4>Please @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" }) or @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" }) to Punch in or out.</h4>
+    <h4>Please @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" }) or @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" }) to Clock in or out.</h4>
 
 }
+
+
+<script></script>

@@ -13,6 +13,8 @@ namespace FreelanceTimeCardTracker.DAL
 
         public string ConnectionString { get; set; }
 
+        public double ServerTimeZoneModifier = 60;
+
         public TimeCardSqlDAL(string connectionString)
         {
             this.ConnectionString = connectionString;
@@ -107,7 +109,7 @@ namespace FreelanceTimeCardTracker.DAL
 
                 SqlCommand cmd = new SqlCommand(@"insert into TIMECARD (user_name, start_datetime) values (@username, @start_datetime);", conn);
                 cmd.Parameters.AddWithValue("@username", timeCard.Username);
-                cmd.Parameters.AddWithValue("@start_datetime", DateTime.Now);
+                cmd.Parameters.AddWithValue("@start_datetime", DateTime.Now.ToUniversalTime());
 
                 cmd.ExecuteNonQuery();
             }
@@ -123,7 +125,7 @@ namespace FreelanceTimeCardTracker.DAL
 
                 cmd.Parameters.AddWithValue("@id", timeCard.ID);
                 cmd.Parameters.AddWithValue("@project", timeCard.Project);
-                cmd.Parameters.AddWithValue("@endtime", DateTime.Now);
+                cmd.Parameters.AddWithValue("@endtime", DateTime.Now.ToUniversalTime());
                 cmd.Parameters.AddWithValue("@notes", timeCard.Notes);
 
                 cmd.ExecuteNonQuery();
