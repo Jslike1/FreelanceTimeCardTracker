@@ -51,7 +51,9 @@
 
         var sd = new Date(sdString);
         var dateString = sd.toUTCString();
-        document.getElementById("demo").innerHTML = sd.toLocaleString();
+        document.getElementById("localDateTime").innerHTML = sd.toLocaleString();
+        document.getElementById("localDate").innerHTML = sd.toLocaleDateString;
+
 
     }
         window.onload = getTimezoneModifier();
@@ -67,7 +69,8 @@
 
     if (Model.Start_DateTime == null)
     {
-        <h3>Today's Date: @DateTime.Now.ToShortDateString()</h3>
+        <span>Today's Date: @DateTime.Now.ToShortDateString()</span>
+        <span id="localDate"></span>
         <form method="post" action="@Url.Action("Index")">
             <input type="hidden" name="Username" value="@User.Identity.GetUserName()" />
             <input type="hidden" name="Start_DateTime" value="@DateTime.Now" />
@@ -78,7 +81,7 @@
     else
     {
         <span>You clocked in at:</span>
-        <span id="demo"></span>
+        <span id="localDateTime"></span>
 
 
         <form method="post" action="@Url.Action("Index")">

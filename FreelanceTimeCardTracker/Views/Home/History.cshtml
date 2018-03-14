@@ -1,51 +1,76 @@
 ﻿@model List<FreelanceTimeCardTracker.Models.TimeCard>
 @{
     ViewBag.Title = "History";
+    int i = 0;
 }
 
-<h2>Submitted History</h2>
+@*@section scripts {
+    <script>
+        function getTimezoneModifier() {
 
-<div class="record-format">
-    <div>
-        <h5>Project</h5>
-    </div>
-    <div>
-        <h5>Start Time</h5>
-    </div>
-    <div>
-        <h5>End Time</h5>
-    </div>
-    <div>
-        <h5>Notes</h5>
-    </div>
-</div>
-<hr />
+            for (var i = 0; i < @Model.Count; i++) {
 
-@if (Model.Count > 0)
-{
+                if(@Convert.ToDateTime(Model[i].Start_DateTime) )
 
-    foreach (var card in Model)
+            }
+        var offset = new Date().getTimezoneOffset(), o = Math.abs(offset);
+        var timezone = (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
+
+        var sdString = "@Convert.ToDateTime(Model.Start_DateTime).Year-@monthString-@dayString" + "T" + "@hourString:@minuteString:@secondString" + "Z";
+
+        var sd = new Date(sdString);
+        var dateString = sd.toUTCString();
+        document.getElementById("localDateTime").innerHTML = sd.toLocaleString();
+        document.getElementById("localDate").innerHTML = sd.toLocaleDateString;
+
+
+    }
+        window.onload = getTimezoneModifier();
+    </script>*@
+
+    <h2>Submitted History</h2>
+
+    <div class="record-format">
+        <div>
+            <h5>Project</h5>
+        </div>
+        <div>
+            <h5>Start Time</h5>
+        </div>
+        <div>
+            <h5>End Time</h5>
+        </div>
+        <div>
+            <h5>Notes</h5>
+        </div>
+    </div>
+    <hr />
+
+    @if (Model.Count > 0)
     {
-        if (card.End_DateTime != null)
+
+        foreach (var card in Model)
         {
-            <div class="record-format">
-                <div>
-                    <p>@card.Project</p>
-                </div>
-                <div>
-                    <p>@Convert.ToDateTime(card.Start_DateTime).ToShortDateString() at @Convert.ToDateTime(card.Start_DateTime).ToShortTimeString()</p>
-                </div>
-                <div>
+            if (card.End_DateTime != null)
+            {
+                <div class="record-format">
+                    <div>
+                        <p>@card.Project</p>
+                    </div>
+                    <div>
+                        <p id="@i-startDate">@Convert.ToDateTime(card.Start_DateTime).ToShortDateString() at @Convert.ToDateTime(card.Start_DateTime).ToShortTimeString()</p>
+                    </div>
+                    <div>
 
-                    <p>@Convert.ToDateTime(card.End_DateTime).ToShortDateString() at @Convert.ToDateTime(card.End_DateTime).ToShortTimeString()</p>
+                        <p id="@i-endDate">@Convert.ToDateTime(card.End_DateTime).ToShortDateString() at @Convert.ToDateTime(card.End_DateTime).ToShortTimeString()</p>
 
+                    </div>
+                    <div>
+                        <p>@card.Notes</p>
+                    </div>
                 </div>
-                <div>
-                    <p>@card.Notes</p>
-                </div>
-            </div>
+            }
         }
     }
-}
 
 
