@@ -67,6 +67,7 @@
 {
     <h2>Time Card</h2>
 
+
     if (Model.Start_DateTime == null)
     {
         <span>Today's Date: @DateTime.Now.ToShortDateString()</span>
@@ -88,8 +89,8 @@
             <input type="hidden" name="End_DateTime" value="@DateTime.Now" />
             <input type="hidden" name="Username" value="@Model.Username" />
             <input type="hidden" name="ID" value="@Model.ID" />
-            <input type="text" name="Project" value="Project Name" />
-            <input type="text" name="Notes" value="Enter Notes Here" />
+            <input type="text" name="Project" placeholder="Project Name" />
+            <input type="text" name="Notes" placeholder="Enter notes here" />
             <input type="hidden" name="Punch" value="punchout" />
             <button>Clock Out</button>
         </form>

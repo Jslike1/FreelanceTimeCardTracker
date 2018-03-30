@@ -26,51 +26,52 @@
 
     }
         window.onload = getTimezoneModifier();
-    </script>*@
+    </script>
+}*@
 
-    <h2>Submitted History</h2>
+<h2>Submitted History</h2>
 
-    <div class="record-format">
-        <div>
-            <h5>Project</h5>
-        </div>
-        <div>
-            <h5>Start Time</h5>
-        </div>
-        <div>
-            <h5>End Time</h5>
-        </div>
-        <div>
-            <h5>Notes</h5>
-        </div>
+<div class="record-format">
+    <div>
+        <h5>Project</h5>
     </div>
-    <hr />
+    <div>
+        <h5>Start Time</h5>
+    </div>
+    <div>
+        <h5>End Time</h5>
+    </div>
+    <div>
+        <h5>Notes</h5>
+    </div>
+</div>
+<hr />
 
-    @if (Model.Count > 0)
+@if (Model.Count > 0)
+{
+
+    foreach (var card in Model)
     {
-
-        foreach (var card in Model)
+        if (card.End_DateTime != null)
         {
-            if (card.End_DateTime != null)
-            {
-                <div class="record-format">
-                    <div>
-                        <p>@card.Project</p>
-                    </div>
-                    <div>
-                        <p id="@i-startDate">@Convert.ToDateTime(card.Start_DateTime).ToShortDateString() at @Convert.ToDateTime(card.Start_DateTime).ToShortTimeString()</p>
-                    </div>
-                    <div>
-
-                        <p id="@i-endDate">@Convert.ToDateTime(card.End_DateTime).ToShortDateString() at @Convert.ToDateTime(card.End_DateTime).ToShortTimeString()</p>
-
-                    </div>
-                    <div>
-                        <p>@card.Notes</p>
-                    </div>
+            <div class="record-format">
+                <div>
+                    <p>@card.Project</p>
                 </div>
-            }
+                <div>
+                    <p id="@i-startDate">@Convert.ToDateTime(card.Start_DateTime).ToShortDateString() at @Convert.ToDateTime(card.Start_DateTime).ToShortTimeString()</p>
+                </div>
+                <div>
+
+                    <p id="@i-endDate">@Convert.ToDateTime(card.End_DateTime).ToShortDateString() at @Convert.ToDateTime(card.End_DateTime).ToShortTimeString()</p>
+
+                </div>
+                <div>
+                    <p>@card.Notes</p>
+                </div>
+            </div>
         }
     }
+}
 
 
