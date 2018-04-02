@@ -4,9 +4,9 @@
     int i = 0;
 }
 
-@*@section scripts {
+@section scripts {
     <script>
-        function getTimezoneModifier() {
+        @*function getTimezoneModifier() {
 
             for (var i = 0; i < @Model.Count; i++) {
 
@@ -25,9 +25,63 @@
 
 
     }
-        window.onload = getTimezoneModifier();
+        window.onload = getTimezoneModifier();*@
+
+
+        function convertTimes() {
+
+            let dates = document.querySelectorAll("#dateTime");
+            console.log(dates);
+
+            for (var i = 0; i < dates.length; i++) {
+
+                let tempText = dates[i].textContent;
+                //console.log(tempText);
+                let split = tempText.split("-");
+
+                if (split[1].length === 1) {
+                    split[1] = "0" + split[1];
+                }
+
+                if (split[2].length === 1) {
+                    split[2] = "0" + split[2];
+                }
+
+
+
+                let splitTime = split[3].split(":");
+
+                if (splitTime[0].length === 2) {
+                    splitTime[0] = "T0" + splitTime[0].toString()[1];
+                    console.log(splitTime[0]);
+                }
+
+                if (splitTime[1].length === 1) {
+                    splitTime[1] = "0" + splitTime[1];
+                }
+
+                if (splitTime[2].length === 2) {
+                    splitTime[2] = "0" + splitTime[2];
+                }
+
+
+                tempText = split[0] + "-" + split[1] + "-" + split[2] + splitTime[0] + ":" + splitTime[1] + ":" + splitTime[2];
+
+                
+
+
+                console.log(tempText);
+
+                let d = new Date(tempText);
+                dates[i].textContent = d.toLocaleString();
+
+            }
+
+        }
+        window.onload = convertTimes();
+
     </script>
-}*@
+}
 
 <h2>Submitted History</h2>
 
@@ -59,11 +113,13 @@
                     <p>@card.Project</p>
                 </div>
                 <div>
-                    <p id="@i-startDate">@Convert.ToDateTime(card.Start_DateTime).ToShortDateString() at @Convert.ToDateTime(card.Start_DateTime).ToShortTimeString()</p>
+                    @*<p id="@i-startDate">@Convert.ToDateTime(card.Start_DateTime).ToShortDateString() at @Convert.ToDateTime(card.Start_DateTime).ToShortTimeString()</p>*@
+                    <p id="dateTime">@Convert.ToDateTime(card.Start_DateTime).Year-@Convert.ToDateTime(card.Start_DateTime).Month-@(Convert.ToDateTime(card.Start_DateTime).Day)-T@(Convert.ToDateTime(card.Start_DateTime).Hour):@(Convert.ToDateTime(card.Start_DateTime).Minute):@(Convert.ToDateTime(card.Start_DateTime).Second)Z</p>
                 </div>
                 <div>
 
-                    <p id="@i-endDate">@Convert.ToDateTime(card.End_DateTime).ToShortDateString() at @Convert.ToDateTime(card.End_DateTime).ToShortTimeString()</p>
+                    @*<p id="@i-endDate">@Convert.ToDateTime(card.End_DateTime).ToShortDateString() at @Convert.ToDateTime(card.End_DateTime).ToShortTimeString()</p>*@
+                    <p id="dateTime">@Convert.ToDateTime(card.End_DateTime).Year-@Convert.ToDateTime(card.End_DateTime).Month-@(Convert.ToDateTime(card.End_DateTime).Day)-T@(Convert.ToDateTime(card.End_DateTime).Hour):@(Convert.ToDateTime(card.End_DateTime).Minute):@(Convert.ToDateTime(card.End_DateTime).Second)Z</p>
 
                 </div>
                 <div>
